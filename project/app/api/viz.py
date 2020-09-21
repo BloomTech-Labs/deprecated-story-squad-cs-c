@@ -1,5 +1,14 @@
-from fastapi import APIRouter, HTTPException
 import pandas as pd
+import numpy as np
+import sys, os, setuptools, tokenize
+from fastapi import FastAPI, APIRouter, UploadFile, File
+from fastapi.middleware.cors import CORSMiddleware
+from starlette.requests import Request
+import pytesseract
+import textstat.textstat
+import io
+import cv2
+from pydantic import BaseModel
 import plotly.express as px
 
 router = APIRouter()
