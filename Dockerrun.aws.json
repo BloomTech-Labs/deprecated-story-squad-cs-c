@@ -1,7 +1,7 @@
 {
-  "AWSEBDockerrunVersion": "1",
+  "AWSEBDockerrunVersion": "8",
   "Image": {
-    "Name": "jomazo/ds-api-storysquad-teamc",
+    "Name": "jomazo/dsfastapi-storysquad-teamc",
     "Update": "true"
   },
   "Ports": [
