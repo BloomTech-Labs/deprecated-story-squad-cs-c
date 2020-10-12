@@ -20,14 +20,44 @@ class ImageType(BaseModel):
   url: str
 
 @router.post("/imgtr") 
-def prediction(request: Request, 
-  file: bytes = File(...)):
-  if request.method == "POST":
-    image_stream = io.BytesIO(file)
-    image_stream.seek(0)
-    file_bytes = np.asarray(bytearray(image_stream.read()), dtype=np.uint8)
-    frame = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
-    label = read_img(frame)
-    ss = label
+def prediction(request: Request, file: bytes = File(...)):
+    if request.method == "POST":
+      image_stream = io.BytesIO(file)
+      image_stream.seek(0)
+      file_bytes = np.asarray(bytearray(image_stream.read()), dtype=np.uint8)
+      frame = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
+      label = read_img(frame)
+      ss = label
     
-    return textstat.textstat.flesch_kincaid_grade(ss)
+    # Returns the cleaned text transcribed using tesseract.
+    # Characters that are to be ignored in the user's uploaded work after being transcribed.
+    ig_chr = [
+        "~",
+        "£",
+        "¥",
+        "@",
+        "«",
+        "%",
+        "$",
+        "‘",
+        '"',
+        "+",
+        "/",
+        "\\",
+        "|",
+        "[",
+        "]",
+        "{",
+        "}",
+        "\n",
+        "\f",
+        "*",
+        "^",
+    ]
+
+    # For loop that removes unnecessary characters (listed above) that are irrelevant to the user's work 
+    # specifically when calling it out afterwards with the complexity score (textstat).
+    for c in ig_chr:
+        ss = ss.replace(c, "")
+    
+    return ss
