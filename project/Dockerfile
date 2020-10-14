@@ -6,6 +6,12 @@ WORKDIR /usr/src/app
 
 # install python dependencies
 RUN python -m pip install --upgrade pip
+RUN apt-get update
+# added for proper functionality of the 
+# opencv-python module (would throw errors otherwise)
+RUN apt-get install 'ffmpeg'\
+    'libsm6'\ 
+    'libxext6'  -y
 COPY ./requirements.txt .
 RUN pip install -r requirements.txt
 
