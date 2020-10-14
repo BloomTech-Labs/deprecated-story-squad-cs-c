@@ -19,7 +19,7 @@ def read_img(img):
 class ImageType(BaseModel):
   url: str
 
-@router.post("/ocr_reader") 
+@router.post('/ocr_reader') 
 def prediction(request: Request, file: bytes = File(...)):
   if request.method == "POST":
     image_stream = io.BytesIO(file)
