@@ -5,3 +5,4 @@ uvicorn==0.11.8
 textstat==0.6.2
 pytesseract==0.3.6
 opencv-python==4.4.0.42
+python-multipart==0.0.5

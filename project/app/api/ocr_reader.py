@@ -12,21 +12,21 @@ from pydantic import BaseModel
 router = APIRouter()
 
 def read_img(img):
-  pytesseract.pytesseract.tesseract_cmd = '/opt/local/bin/tesseract'
+  pytesseract.pytesseract.tesseract_cmd = r'/usr/bin/tesseract'
   text = pytesseract.image_to_string(img)
   return(text)
 
 class ImageType(BaseModel):
   url: str
 
-@router.post('/ocr_reader') 
-def prediction(request: Request, file: bytes = File(...)):
-  if request.method == "POST":
+@router.post('/ocr/') 
+def ocr(request: Request, file: bytes = File(...)):
+  if request.method == 'POST':
     image_stream = io.BytesIO(file)
     image_stream.seek(0)
     file_bytes = np.asarray(bytearray(image_stream.read()), dtype=np.uint8)
     frame = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
-    cv2_imshow(frame)
+    
     # blur
     blur = cv2.GaussianBlur(frame, (3,3), 0)
 
@@ -50,7 +50,7 @@ def prediction(request: Request, file: bytes = File(...)):
     otsu_result[mask==0] = 0
 
     # Now we use pytesseract to extract the text
-    label = read_img(otsu_result)
+    label = read_img(otsu)
     sample_story = label
     ss = textstat.textstat.flesch_kincaid_grade(sample_story)
     

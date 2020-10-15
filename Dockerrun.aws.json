@@ -1,7 +1,7 @@
 {
   "AWSEBDockerrunVersion": "1",
   "Image": {
-    "Name": "jomazo/ds-api-storysquad-teamc",
+    "Name": "jackrosscoding/ds-api-storysquad-teamc",
     "Update": "true"
   },
   "Ports": [
