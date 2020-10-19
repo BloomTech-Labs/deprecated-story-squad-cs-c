@@ -27,7 +27,6 @@ async def ocr(url):
   response = requests.get(url)
   img = Image.open(BytesIO(response.content))
   img = np.array(img)
-  cv2_imshow(img)
   blur = cv2.GaussianBlur(img, (3,3), 0)
 
   # convert to hsv and get saturation channel
@@ -54,5 +53,4 @@ async def ocr(url):
   label = read_img(otsu)
 
   sample_story = label
-  cv2_imshow(otsu)
   return textstat.textstat.flesch_kincaid_grade(sample_story)
