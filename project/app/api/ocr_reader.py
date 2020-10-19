@@ -12,7 +12,6 @@ from pydantic import BaseModel
 router = APIRouter()
 
 def read_img(img):
-  pytesseract.pytesseract.tesseract_cmd = r'/usr/bin/tesseract'
   text = pytesseract.image_to_string(img)
   return(text)
 
@@ -27,7 +26,7 @@ def ocr(request: Request, file: bytes = File(...)):
     file_bytes = np.asarray(bytearray(image_stream.read()), dtype=np.uint8)
     frame = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
     
-    # blur
+    # blur image
     blur = cv2.GaussianBlur(frame, (3,3), 0)
 
     # convert to hsv and get saturation channel
@@ -52,38 +51,4 @@ def ocr(request: Request, file: bytes = File(...)):
     # Now we use pytesseract to extract the text
     label = read_img(otsu)
     sample_story = label
-    ss = textstat.textstat.flesch_kincaid_grade(sample_story)
-    
-    # Returns the cleaned text transcribed using tesseract.
-    # Characters that are to be ignored in the user's uploaded work after being transcribed.
-    ig_chr = [
-        "~",
-        "£",
-        "¥",
-        "@",
-        "«",
-        "%",
-        "$",
-        "‘",
-        '"',
-        "+",
-        "/",
-        "\\",
-        "|",
-        "[",
-        "]",
-        "{",
-        "}",
-        "\n",
-        "\f",
-        "*",
-        "^",
-    ]
-
-    # For loop that removes unnecessary characters (listed above) that are irrelevant to the user's work 
-    # specifically when calling it out afterwards with the complexity score (textstat).
-    for c in ig_chr:
-        ss = ss.replace(c, "")
-    
-    return ss
-  
+    return textstat.textstat.flesch_kincaid_grade(sample_story)
