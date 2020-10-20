@@ -22,7 +22,7 @@ def read_img(img):
 class ImageType(BaseModel):
   url: str
 
-@router.post('/ocr/') 
+@router.post('/ocr') 
 async def ocr(url):
   response = requests.get(url)
   img = Image.open(BytesIO(response.content))
