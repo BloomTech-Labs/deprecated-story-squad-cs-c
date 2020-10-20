@@ -20,7 +20,7 @@ def read_img(img):
   return(text)
 
 class ImageType(BaseModel):
-  URL: str = Field(..., example='https://storysquad-teamc-bucket.s3.amazonaws.com/user-content/1603145080085future.jpg')
+  URL: str = Field(..., example='https://i.imgur.com/wJWBRiC.jpg')
 
 @router.post('/ocr') 
 async def ocr(image: ImageType):
