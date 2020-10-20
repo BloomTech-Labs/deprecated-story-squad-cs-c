@@ -7,7 +7,7 @@ import pytesseract
 import textstat.textstat
 import io
 import cv2
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from io import BytesIO
 from PIL import Image
 import requests
@@ -20,11 +20,11 @@ def read_img(img):
   return(text)
 
 class ImageType(BaseModel):
-  url: str
+  URL: str = Field(..., example='https://storysquad-teamc-bucket.s3.amazonaws.com/user-content/1603145080085future.jpg')
 
 @router.post('/ocr') 
-async def ocr(url):
-  response = requests.get(url)
+async def ocr(image: ImageType):
+  response = requests.get(image.URL)
   img = Image.open(BytesIO(response.content))
   img = np.array(img)
   blur = cv2.GaussianBlur(img, (3,3), 0)
